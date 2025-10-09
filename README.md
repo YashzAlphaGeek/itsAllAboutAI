@@ -1,6 +1,16 @@
 
 ## AI Concepts Flow
 
+Flowchart shows the journey of intelligence building:
+
+AI (Goal)
++ achieved through Machine Learning (**method**)
++ powered by Neural Networks (**brain**)
++ applied in NLP (**language understanding**)
++ refined by Tokenization, Parsing, Sentiment, Prompting (**communication tools**)
++  trained by Learning Methods (**Supervised**, etc.)
++  evolved into Zero/Few-Shot Learning (**adaptability**)
+
 ```mermaid
 flowchart TD
     %% === Main Flow ===
@@ -27,7 +37,7 @@ flowchart TD
     L --> N["🦓 **Few-Shot Learning:** Learning new things from just a few examples"]
 
     %% === Example Context ===
-    subgraph "💡 Example: Smart Chatbot (AIVA)"
+    subgraph " "
         A
         B
         C
