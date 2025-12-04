@@ -31,30 +31,33 @@ Modern LLMs are built using a series of techniques that help the model:
 ```mermaid
 ---
 config:
-  layout: elk
+  layout: TB
 ---
 flowchart TB
 
     %% PIPELINE STAGES
-    A["1-Technique Applications - Simple Apps"]
-    B["2-Technique Combinations - Real-world Apps"]
-    C["3-Technique Combination - Strong Enterprise Apps"]
-    D["Full LLM Development Pipeline - Labs / Enterprise"]
+    A["1-Technique Apps<br>(Simple Apps)"]
+    B["2-Technique Combos<br>(Real-world Apps)"]
+    C["3-Technique Combo<br>(Strong Enterprise Apps)"]
+    D["Full LLM Pipeline<br>(Labs / Enterprise)"]
 
     %% FLOW
     A --> B --> C --> D
 
     %% EXAMPLES IN PIPELINE
-    A1["Prompting Only - Simple chatbot"]:::one
-    A2["RAG Only - Document QA"]:::one
-    A3["Finetuning Only - Email classifier"]:::one
-    B1["Prompting + RAG - Enterprise QA assistant"]:::two
-    B2["Prompting + Finetuning - Domain chatbot"]:::two
-    B3["RAG + Finetuning - Search with domain tuning"]:::two
-    C1["Prompting + RAG + Finetuning - Strong enterprise system"]:::three
-    D1["Pretraining + SFT + RLHF - GPT/Llama base"]:::full
-    D2["Base + Finetuning - Custom GPT"]:::full
-    D3["All Techniques + RAG - Enterprise deployed LLM"]:::full
+    A1["Prompting<br>Simple chatbot"]:::one
+    A2["RAG<br>Document QA"]:::one
+    A3["Finetuning<br>Email classifier"]:::one
+
+    B1["Prompting + RAG<br>Enterprise QA assistant"]:::two
+    B2["Prompting + Finetuning<br>Domain chatbot"]:::two
+    B3["RAG + Finetuning<br>Search with domain tuning"]:::two
+
+    C1["Prompting + RAG + Finetuning<br>Strong enterprise system"]:::three
+
+    D1["Pretraining + SFT + RLHF<br>GPT/Llama base"]:::full
+    D2["Base + Finetuning<br>Custom GPT"]:::full
+    D3["All Techniques + RAG<br>Enterprise deployed LLM"]:::full
 
     %% CONNECT EXAMPLES TO STAGES
     A --> A1
@@ -73,3 +76,4 @@ flowchart TB
     classDef two fill:#D0E8FF,stroke:#3399FF,stroke-width:1px,color:#004C99
     classDef three fill:#D4FFD4,stroke:#33CC33,stroke-width:1px,color:#006600
     classDef full fill:#E6D4FF,stroke:#9933FF,stroke-width:1px,color:#4B0082
+```
