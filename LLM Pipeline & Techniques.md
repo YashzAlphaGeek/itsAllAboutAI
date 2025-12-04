@@ -77,3 +77,7 @@ flowchart TB
     classDef three fill:#D4FFD4,stroke:#33CC33,stroke-width:1px,color:#006600
     classDef full fill:#E6D4FF,stroke:#9933FF,stroke-width:1px,color:#4B0082
 ```
+
++ LLM Basics (https://www.youtube.com/watch?v=LPZh9BOjkQs)
++ Components of LLM (https://www.youtube.com/watch?v=LPZh9BOjkQs)
++ Why LLM Size Matters (https://www.youtube.com/watch?v=kgSMRmW2frA)
