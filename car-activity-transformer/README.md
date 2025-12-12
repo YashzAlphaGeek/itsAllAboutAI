@@ -2,6 +2,8 @@
 
 This project is a **Car Activity Recognition system** using a **Transformer-based deep learning model**. It predicts car activities (e.g., idle, moving, neutral, parked) from telemetry data such as speed, RPM, throttle, brake, acceleration, and gear.
 
+<img width="418" height="536" alt="image" src="https://github.com/user-attachments/assets/b22fc3f0-af8d-440b-aa57-54a628e867c6" />
+
 ---
 
 ## **Table of Contents**
