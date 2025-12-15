@@ -10,6 +10,7 @@
 * **Player stats tracking:** Health and Fear are visually displayed as bars, updating based on player actions and AI responses.
 * **Emergent gameplay:** No two games are the same; the AI generates new storylines dynamically.
 * **Interactive text adventure:** Play directly in the terminal with free-form commands.
+* **Optional Web UI:** Streamlit-based browser interface with clickable actions and dynamic stats display.
 
 ---
 
@@ -21,11 +22,21 @@
    ```bash
    ollama pull llama3
    ```
-3. Save the game script as `shadows_of_shadow_falls.py`.
+3. Install **Streamlit** if you want the web UI version:
+
+   ```bash
+   pip install streamlit
+   ```
+4. Save the game script as either:
+
+   * `shadows_of_shadow_falls.py` (terminal version)
+   * `shadows_of_shadow_falls_streamlit_ui.py` (web UI version)
 
 ---
 
 ## How to Play
+
+### Terminal Version
 
 1. Run the game from your terminal:
 
@@ -39,6 +50,8 @@
    investigate noise
    peek outside
    use flashlight
+   open closet
+   hide under the bed
    ```
 4. The AI will respond with the next part of the story, and stats will update dynamically.
 5. Game ends when:
@@ -46,6 +59,18 @@
    * Health ≤ 0 → GAME OVER
    * Fear ≥ 100 → GAME OVER
    * Or you type `quit`
+
+### Web UI Version (Streamlit)
+
+1. Run the Streamlit app:
+
+   ```bash
+   streamlit run shadows_of_shadow_falls_streamlit_ui.py
+   ```
+2. Your browser will open with the game interface.
+3. You can type actions in the input box or click predefined action buttons.
+4. Health, Fear, and Inventory stats update dynamically, and the story scrolls in the browser.
+5. End conditions are the same as the terminal version.
 
 ---
 
@@ -63,7 +88,8 @@
 
 * **Health:** Starts at 100; decreases if the player encounters danger or makes risky choices.
 * **Fear:** Starts at 0; increases with supernatural events, scary encounters, or suspenseful situations.
-* The AI **updates stats numerically** in its output; the Python script reads these values and updates the bars.
+* **Inventory:** Items collected during the game; dynamically updated by AI.
+* The AI **updates stats numerically** in its output; the Python script reads these values and updates bars or displays.
 
 ---
 
@@ -71,6 +97,14 @@
 
 * Python 3.10+
 * Ollama (local LLaMA 3 model)
-* Terminal or command-line interface
+* Terminal or command-line interface (for terminal version)
+* Browser (for Streamlit web UI version)
+* Streamlit (`pip install streamlit`) for web UI
 
 ---
+
+## Notes
+
+* The AI generates dynamic events, so no two playthroughs are identical.
+* You can mix free-form typed actions with predefined buttons in the web UI for enhanced interactivity.
+* Make sure Ollama and LLaMA 3 are properly installed and accessible locally for the game to run.
