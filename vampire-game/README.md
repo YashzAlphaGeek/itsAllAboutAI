@@ -29,11 +29,6 @@
    ```bash
    pip install streamlit
    ```
-4. Save the game script as either:
-
-   * `shadows_of_shadow_falls.py` (terminal version)
-   * `shadows_of_shadow_falls_streamlit_ui.py` (web UI version)
-
 ---
 
 ## How to Play
