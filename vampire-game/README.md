@@ -67,7 +67,7 @@
 1. Run the Streamlit app:
 
    ```bash
-   streamlit run shadows_of_shadow_falls_streamlit_ui.py
+   streamlit run shadows_of_shadow_falls.py
    ```
 2. Your browser will open with the game interface.
 3. You can type actions in the input box or click predefined action buttons.
