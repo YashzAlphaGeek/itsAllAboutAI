@@ -2,6 +2,8 @@
 
 **Shadows of Shadow Falls** is a **locally-run AI-powered interactive text adventure** inspired by *The Vampire Diaries*. The game uses **Ollama + LLaMA 3** as the Game Master, generating dynamic story events, supernatural encounters, and narrative twists based on player input. Health and Fear stats are tracked in real-time, making every playthrough unique.
 
+<img width="440" height="519" alt="image" src="https://github.com/user-attachments/assets/723f0de5-3c55-4ec2-bd73-058ba05653a4" />
+
 ---
 
 ## Features
