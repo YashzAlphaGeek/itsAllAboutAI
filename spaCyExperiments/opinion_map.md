@@ -1,6 +1,6 @@
 # Opinion Map - NLP Visualization
 
-This project demonstrates how to create an **Opinion Map** from a sentence using **spaCy**, **TextBlob**, and **NetworkX**. The opinion map visually represents the relationships between entities, actions, objects, context, and sentiment.
+This project demonstrates how to create an **Opinion Map** from a sentence using **spaCy**, **NetworkX**, and either **TextBlob** or **Hugging Face Transformers** for sentiment analysis. The opinion map visually represents the relationships between entities, actions, objects, context, and sentiment.
 
 <img width="750" height="450" alt="image" src="https://github.com/user-attachments/assets/371e32a7-9206-48ab-b3fd-c9e919e9106b" />
 
@@ -11,8 +11,22 @@ This project demonstrates how to create an **Opinion Map** from a sentence using
 - **Named Entity Recognition (NER)**: Extracts entities such as organizations, locations, and dates.
 - **Dependency Parsing**: Identifies the main action (verb) and objects.
 - **Context Extraction**: Captures location and time references.
-- **Sentiment Analysis**: Determines the sentiment (positive, neutral, negative) of the sentence.
+- **Sentiment Analysis**:
+  - **TextBlob**: Lexicon-based sentiment (positive/neutral/negative).
+  - **Transformer (DistilBERT)**: Context-aware sentiment (positive/negative) using PyTorch.
 - **Graph Visualization**: Uses NetworkX and Matplotlib to visualize the opinion map.
+
+---
+
+## Files
+
+1. **TextBlob Version**: `opinion_map_textblob.py`
+   - Uses TextBlob for sentiment analysis.
+   - Fast and lightweight, but less context-aware.
+
+2. **Transformer Version**: `opinion_map_transformer.py`
+   - Uses Hugging Face DistilBERT with PyTorch.
+   - Captures nuanced sentiment with contextual understanding.
 
 ---
 
@@ -21,13 +35,14 @@ This project demonstrates how to create an **Opinion Map** from a sentence using
 - Python 3.8+
 - Libraries:
   - spaCy
-  - textblob
+  - textblob (for TextBlob version)
+  - transformers, torch (for Transformer version)
   - networkx
   - matplotlib
 
 ### Install Dependencies
 ```bash
-pip install spacy textblob networkx matplotlib
+pip install spacy textblob transformers torch networkx matplotlib
 python -m spacy download en_core_web_sm
 ```
 
@@ -35,37 +50,42 @@ python -m spacy download en_core_web_sm
 
 ## Usage
 
-1. Clone the repository or download the files.
-2. Ensure dependencies are installed.
-3. Run the script `opinion_map.py` (the Python code provided):
-
+### TextBlob Version
 ```bash
-python opinion_map.py
+python opinion_map_textblob.py
 ```
+- Computes sentiment using TextBlob.
+- Generates a visual opinion map.
 
-4. The program will:
-   - Analyze the input sentence.
-   - Extract entities, actions, objects, and context.
-   - Compute sentiment.
-   - Display a visual opinion map using Matplotlib.
+### Transformer Version
+```bash
+python opinion_map_transformer.py
+```
+- Computes context-aware sentiment using DistilBERT.
+- Forces PyTorch framework to avoid TensorFlow/Keras issues.
+- Generates a visual opinion map.
 
-### Example
-Input Sentence:
+---
+
+## Example Input
 ```text
 Apple is planning to open a new office in London next year.
 ```
 
-Output Graph:
+### Example Output (TextBlob)
+
+![textblob.png](textblob.png)
+
 ```
-    (Apple)
-       |
-  planning to open
-       |
-   (New Office)
-    /        \
-(London)   (Next Year)
-       |
-  Sentiment: Neutral/Slightly Positive
+Sentiment: Neutral
+```
+
+### Example Output (Transformer)
+
+![transformer.png](transformer.png)
+
+```
+Sentiment: POSITIVE
 ```
 
 Nodes are color-coded:
@@ -77,3 +97,9 @@ Nodes are color-coded:
 
 ---
 
+## Notes
+- Use **TextBlob** for quick analysis on small datasets.
+- Use **Transformer** for nuanced sentiment detection on context-rich text.
+- Both scripts generate the same opinion map structure, differing only in sentiment analysis approach.
+
+---
