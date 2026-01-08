@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Paper Toss</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f0f0f0;
+    }
+    canvas {
+      border: 2px solid #000;
+      background: #ffffff;
+      margin-top: 20px;
+    }
+    #log {
+      width: 800px;
+      margin: 20px auto;
+      height: 100px;
+      background: #fff;
+      border: 1px solid #ccc;
+      overflow-y: scroll;
+      padding: 5px;
+      text-align: left;
+      font-size: 14px;
+    }
+    #score {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Paper Toss</h1>
+  <canvas id="gameCanvas" width="800" height="500"></canvas>
+  <div id="score">Score: 0</div>
+  <div id="log"></div>
+  <script src="game.js"></script>
+</body>
+</html>
