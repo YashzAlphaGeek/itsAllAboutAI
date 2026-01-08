@@ -2,6 +2,8 @@
 
 This project demonstrates how to create an **Opinion Map** from a sentence using **spaCy**, **TextBlob**, and **NetworkX**. The opinion map visually represents the relationships between entities, actions, objects, context, and sentiment.
 
+<img width="750" height="450" alt="image" src="https://github.com/user-attachments/assets/371e32a7-9206-48ab-b3fd-c9e919e9106b" />
+
 ---
 
 ## Features
