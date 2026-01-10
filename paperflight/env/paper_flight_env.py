@@ -36,7 +36,8 @@ class PaperFlightEnv:
         reward = 0.0
         if done:
             dist = abs(self.ball_x - self.bin_x)
-            ## reward = 1.0 if dist < 22 else -0.5
-            reward = 1.0 if dist < 22 else 1 - min(dist / 800, 1.0)
-
+            if dist < 22:
+                reward = 1.0
+            else:
+                reward = 0.5 * (1 - min(dist / 800, 1.0))
         return self._get_state(), reward, done

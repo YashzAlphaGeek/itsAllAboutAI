@@ -12,9 +12,11 @@ GAMMA = 0.99
 CLIP = 0.2
 ACTOR_LR = 3e-4
 CRITIC_LR = 1e-3
-EPISODES = 2000
-THROWS_PER_EPISODE = 10
-STD = 0.15
+EPISODES = 3500
+THROWS_PER_EPISODE = 12
+STD_START = 0.25
+STD_END = 0.05
+PPO_UPDATES = 6
 
 # --------------------
 # Environment
@@ -47,13 +49,17 @@ critic_opt = tf.keras.optimizers.Adam(CRITIC_LR)
 # Training Loop
 # --------------------
 for ep in range(EPISODES):
+    std = STD_START - (STD_START - STD_END) * (ep / EPISODES)
+
     states, actions, rewards, log_probs = [], [], [], []
     state = env.reset()
     total_reward = 0
+    hits = 0
+    near_hits = 0
+    min_dist = float("inf")
 
     for _ in range(THROWS_PER_EPISODE):
         mu = actor(state[None])
-        std = tf.ones_like(mu) * STD
         action = mu + tf.random.normal(mu.shape) * std
 
         log_prob = -0.5 * tf.reduce_sum(
@@ -61,11 +67,26 @@ for ep in range(EPISODES):
             axis=1
         )
 
-        # Clip & map actions
         angle = float(np.clip(action[0,0], 0.3, 1.0))
         power = float(np.clip(8 + (action[0,1] + 1)/2 * 4, 8, 12))
 
         next_state, reward, done = env.step([angle, power])
+
+        dist = abs(env.ball_x - env.bin_x)
+        min_dist = min(min_dist, dist)
+
+        if dist < 22:
+            hits += 1
+        elif dist < 50:
+            near_hits += 1
+
+        if dist < 22:
+            shaped_reward = 1.0
+        elif dist < 50:
+            shaped_reward = 0.5
+        else:
+            shaped_reward = max(0, 1 - dist/400)
+        reward = shaped_reward
 
         states.append(state)
         actions.append([angle, power])
@@ -75,7 +96,6 @@ for ep in range(EPISODES):
         total_reward += reward
         state = next_state
 
-    # Compute discounted returns
     returns = []
     G = 0
     for r in reversed(rewards):
@@ -87,17 +107,14 @@ for ep in range(EPISODES):
     actions = np.array(actions, dtype=np.float32)
     old_log_probs = tf.stack(log_probs)
 
-    # Advantages
     values = tf.squeeze(critic(states))
     advantages = returns - values.numpy()
     advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
     advantages = np.clip(advantages, -5.0, 5.0)
 
-    # PPO actor update
-    for _ in range(4):
+    for _ in range(PPO_UPDATES):
         with tf.GradientTape() as tape:
             mu = actor(states)
-            std = tf.ones_like(mu) * STD
             new_log_probs = -0.5 * tf.reduce_sum(
                 ((actions - mu)/std)**2 + 2*tf.math.log(std) + tf.math.log(2*np.pi),
                 axis=1
@@ -108,17 +125,19 @@ for ep in range(EPISODES):
         grads = tape.gradient(actor_loss, actor.trainable_variables)
         actor_opt.apply_gradients(zip(grads, actor.trainable_variables))
 
-    # Critic update
     with tf.GradientTape() as tape:
         v = critic(states)
         critic_loss = tf.reduce_mean((returns - tf.squeeze(v))**2)
     grads = tape.gradient(critic_loss, critic.trainable_variables)
     critic_opt.apply_gradients(zip(grads, critic.trainable_variables))
 
+    # --------------------
+    # Logging
+    # --------------------
     if ep % 25 == 0:
-        print(f"EP {ep} | Total Reward: {total_reward:.2f}")
+        print(f"EP {ep} | Total Reward: {total_reward:.2f} | Hits: {hits}/{THROWS_PER_EPISODE} | "
+              f"Near Hits: {near_hits} | Min Dist: {min_dist:.2f} | STD: {std:.3f}")
 
-# Save weights
 actor.save_weights("server/trained_actor.weights.h5")
 critic.save_weights("server/trained_critic.weights.h5")
 print("✅ Training complete and weights saved")
