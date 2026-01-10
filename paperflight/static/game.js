@@ -13,12 +13,14 @@ let ball = { x: 100, y: 420, vx: 0, vy: 0 };
 let bin  = { x: 600, y: 420 };
 let score = 0;
 
-// Physics
+// Physics tuning
 const radius = 10;
 const groundY = 430;
-const dt = 0.25;
+
+// Adjusted timestep & velocityScale to match PPO
+const dt = 0.2;
 const velocityScale = 12;
-const gravity = 0.25;
+const gravity = 0.18;
 
 // Speed multiplier
 let speedMultiplier = 1.0;
@@ -100,12 +102,15 @@ async function throwBall() {
     const angle = data.angle;
     const power = data.power;
 
+    // HUD update
     angleEl.textContent = angle.toFixed(2);
     powerEl.textContent = power.toFixed(2);
 
+    // Start trajectory
     let currentTrajectory = { points: [{ x: ball.x, y: ball.y }], alpha: 1.0 };
     trajectories.push(currentTrajectory);
 
+    // Apply scaled velocities
     ball.vx = Math.cos(angle) * power * velocityScale;
     ball.vy = -Math.sin(angle) * power * velocityScale;
 
