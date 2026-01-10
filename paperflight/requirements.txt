@@ -1,0 +1,5 @@
+tensorflow>=2.14
+gymnasium
+numpy
+flask
+flask-cors
