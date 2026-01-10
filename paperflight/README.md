@@ -2,6 +2,8 @@
 
 A **2D Paper Flight Reinforcement Learning game** using **PPO (Proximal Policy Optimization)** in TensorFlow. The AI learns to throw a paper ball into a moving bin.
 
+<img width="522" height="456" alt="image" src="https://github.com/user-attachments/assets/33bab92a-f75f-40fb-b0c5-01d291e6fe4e" />
+
 ---
 
 ##  Project Structure
