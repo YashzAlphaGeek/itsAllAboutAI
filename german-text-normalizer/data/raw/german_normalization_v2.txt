@@ -1,0 +1,107 @@
+# 1. Umlauts
+glucklich ||| glücklich
+muede ||| müde
+schon ||| schön
+baer ||| Bär
+kochen ||| kochen
+fuß ||| Fuß
+maedchen ||| Mädchen
+oesterreich ||| Österreich
+moebel ||| Möbel
+strasse ||| Straße
+
+# 2. Capitalization of nouns
+hunger ||| Hunger
+morgen ||| Morgen
+arbeit ||| Arbeit
+abend ||| Abend
+nacht ||| Nacht
+buch ||| Buch
+auto ||| Auto
+haus ||| Haus
+schule ||| Schule
+freund ||| Freund
+
+# 3. Sentence-initial capitalization
+ich bin müde ||| Ich bin müde
+guten morgen ||| Guten Morgen
+ich habe hunger ||| Ich habe Hunger
+ich gehe arbeiten ||| Ich gehe arbeiten
+heute ist ein guter tag ||| Heute ist ein guter Tag
+morgen gehe ich einkaufen ||| Morgen gehe ich einkaufen
+bin ich froh ||| Bin ich froh
+ich gehe in die schule ||| Ich gehe in die Schule
+der baer ist schoen ||| Der Bär ist schön
+
+# 4. Greeting normalization
+guten abend ||| Guten Abend
+gute nacht ||| Gute Nacht
+hallo ||| Hallo
+hallo zusammen ||| Hallo zusammen
+herzlich willkommen ||| Herzlich willkommen
+schönen tag ||| Schönen Tag
+willkommen ||| Willkommen
+guten morgen zusammen ||| Guten Morgen zusammen
+hallo ihr alle ||| Hallo ihr alle
+
+# 5. Common verb patterns
+ich bin glucklich ||| Ich bin glücklich
+ich habe hunger ||| Ich habe Hunger
+ich gehe spazieren ||| Ich gehe spazieren
+du bist müde ||| Du bist müde
+er hat arbeit ||| Er hat Arbeit
+sie ist froh ||| Sie ist froh
+wir haben spaß ||| Wir haben Spaß
+ich mag kochen ||| Ich mag kochen
+du gehst in die schule ||| Du gehst in die Schule
+er ist hungrig ||| Er ist hungrig
+
+# 6. Umlaut + Capitalization combined
+ich habe hunger und bin muede ||| Ich habe Hunger und bin müde
+guten morgen ich bin muede ||| Guten Morgen, ich bin müde
+ich gehe in die schule ||| Ich gehe in die Schule
+der baer ist schoen ||| Der Bär ist schön
+das maedchen liest buch ||| Das Mädchen liest Buch
+oesterreich ist schoen ||| Österreich ist schön
+ich habe hunger und bin glucklich ||| Ich habe Hunger und bin glücklich
+guten abend ich bin muede ||| Guten Abend, ich bin müde
+
+# 7. Punctuation normalization
+ich bin müde ||| Ich bin müde.
+hallo ich bin da ||| Hallo, ich bin da.
+guten morgen ich habe hunger ||| Guten Morgen, ich habe Hunger.
+ich gehe in die schule ||| Ich gehe in die Schule.
+willkommen zur party ||| Willkommen zur Party.
+guten abend ich bin froh ||| Guten Abend, ich bin froh.
+hallo zusammen ich habe hunger ||| Hallo zusammen, ich habe Hunger.
+
+# 8. Extra spaces
+ich  bin   muede ||| Ich bin müde
+guten  morgen ||| Guten Morgen
+ich  habe   hunger ||| Ich habe Hunger
+ich  gehe  in  die  schule ||| Ich gehe in die Schule.
+hallo   zusammen ||| Hallo zusammen
+guten  abend ||| Guten Abend
+bin  muede ||| Ich bin müde
+hab   hunger ||| Ich habe Hunger
+
+# 9. Informal → Neutral
+bin muede ||| Ich bin müde
+hab hunger ||| Ich habe Hunger
+gehts dir gut ||| Geht es dir gut?
+bin glucklich ||| Ich bin glücklich
+hab schon gegessen ||| Ich habe schon gegessen
+bin ich hungrig ||| Ich bin hungrig
+hab spaß ||| Ich habe Spaß
+
+# 10. Mixed errors
+guten morgen ich habe hunger ||| Guten Morgen, ich habe Hunger.
+ich bin muede und hab hunger ||| Ich bin müde und habe Hunger.
+hallo guten morgen ich bin glucklich ||| Hallo, guten Morgen, ich bin glücklich.
+ich gehe in die schule und hab hunger ||| Ich gehe in die Schule und habe Hunger.
+guten abend ich bin muede ||| Guten Abend, ich bin müde.
+hallo ich habe hunger und bin muede ||| Hallo, ich habe Hunger und bin müde.
+guten morgen hab hunger ||| Guten Morgen, ich habe Hunger.
+bin muede und glucklich ||| Ich bin müde und glücklich.
+hallo guten abend ich habe hunger ||| Hallo, guten Abend, ich habe Hunger.
+ich bin muede hab hunger und bin froh ||| Ich bin müde, habe Hunger und bin froh.

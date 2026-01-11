@@ -1,5 +1,3 @@
-# src/data_loader.py
-
 import os
 
 def load_dataset(file_path):
