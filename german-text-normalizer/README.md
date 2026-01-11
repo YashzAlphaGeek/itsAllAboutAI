@@ -1,6 +1,8 @@
-# German Text Normalizer (NLP Focus)
+# German Text Normalizer
 
-This project explores **Natural Language Processing (NLP)** using both **rule-based** and **AI-based** methods, focusing on a beginner-friendly **German text normalization use-case**: correcting `"ich bin muede"` → `"Ich bin müde"`.
+This project explores **Natural Language Processing (NLP)** using both **rule-based** and **AI-based** methods, focusing on a beginner-friendly **German text normalization use-case**: correcting `"ich bin muede"` → `"Ich bin müde"`. This project is primarily educational, showcasing how AI can be applied to text normalization, including tokenization, LSTM encoding/decoding, and simple mapping from misspellings to correct text.
+While it works for the small experimental dataset, real-world German normalization would require more comprehensive datasets and advanced NLP pipelines.
+
 
 ---
 
@@ -11,7 +13,7 @@ Flowchart shows how NLP works and the journey from raw text to intelligent norma
 ```mermaid
 flowchart TD
     %% Main NLP Flow
-    A["📝 Input Sentence"] --> B["Preprocessing: Cleaning, Lowercasing, Removing Extra Spaces"]
+    A["Input Sentence"] --> B["Preprocessing: Cleaning, Lowercasing, Removing Extra Spaces"]
 
     B --> C["Rule-Based Normalization (Lookup)"]
     C --> D["Output (Normalized Text)"]

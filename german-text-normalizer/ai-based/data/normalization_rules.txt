@@ -1,3 +1,9 @@
+ich bin muede ||| Ich bin müde
+ich bin mude ||| Ich bin müde
+muede ||| müde
+mude ||| müde
 hunger ||| Hunger
 guten morgen ||| Guten Morgen
+hallo ||| Hallo
 ich gehe in die schule ||| Ich gehe in die Schule
+bin muede ||| Bin müde
