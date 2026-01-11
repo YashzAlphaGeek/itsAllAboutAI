@@ -104,16 +104,6 @@ hallo zusammen ||| Hallo zusammen
 
 ---
 
-## Testing
-
-Run the test suite:
-
-```bash
-python -m unittest discover -s tests
-```
-
----
-
 ## Notes for Beginners
 
 * This is **not AI-based**; it uses **exact string matching**.

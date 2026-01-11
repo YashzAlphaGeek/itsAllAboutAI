@@ -1,0 +1,3 @@
+hunger ||| Hunger
+guten morgen ||| Guten Morgen
+ich gehe in die schule ||| Ich gehe in die Schule
