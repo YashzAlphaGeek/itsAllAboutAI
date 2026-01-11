@@ -1,8 +1,3 @@
-"""
-demo.py
-Simple demo for German Text Normalizer
-"""
-
 from normalize import normalize_sentence
 
 def run_demo():

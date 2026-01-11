@@ -1,7 +1,3 @@
-"""
-Command-line interface for testing German text normalization.
-"""
-
 from normalize import Normalizer
 import os
 

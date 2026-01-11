@@ -29,8 +29,6 @@ german-text-normalizer-ai/
 │   ├── train.py                  # Training script
 │   ├── inference.py              # Load model & inference functions
 │   └── main.py                   # CLI script for testing
-├── tests/
-│   └── test_normalize.py         # Unit tests
 ├── requirements.txt
 └── README.md
 ```

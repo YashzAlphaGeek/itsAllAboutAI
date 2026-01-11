@@ -1,7 +1,3 @@
-"""
-Text preprocessing utilities for German normalization.
-"""
-
 def clean_text(text: str) -> str:
     """
     Simple text cleaning:

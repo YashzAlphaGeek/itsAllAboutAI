@@ -18,11 +18,10 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    A[User Input (CLI)] --> B[Normalizer (normalize.py)]
-    B --> C[Preprocessing (preprocessing.py)]
-    C --> D[Output: Normalized Text]
-
-    B -->|Load Rules| E[normalization_rules.txt]
+    A["User Input (CLI)"] --> B["Normalizer (normalize.py)"]
+    B --> C["Preprocessing (preprocessing.py)"]
+    C --> D["Output: Normalized Text"]
+    B -->|Load Rules| E["normalization_rules.txt"]
 ```
 
 * **normalize.py**: Core logic; reads `normalization_rules.txt` and applies corrections.
@@ -42,9 +41,6 @@ german-text-normalizer/
 │   ├── preprocessing.py          # Text cleaning utilities
 │   ├── normalize.py              # Core Normalizer class
 │   ├── main.py                   # CLI for demo
-│   └── utils.py                  # Optional helper functions
-├── tests/
-│   └── test_normalize.py         # Unit tests
 ├── requirements.txt
 └── README.md
 ```
@@ -103,8 +99,6 @@ hallo zusammen ||| Hallo zusammen
 3. Save the file; the next time you run `main.py`, it will automatically use the new rules.
 
 ---
-
-## Notes for Beginners
 
 * This is **not AI-based**; it uses **exact string matching**.
 * Works best for **fixed phrases** or **commonly mistyped sentences**.
