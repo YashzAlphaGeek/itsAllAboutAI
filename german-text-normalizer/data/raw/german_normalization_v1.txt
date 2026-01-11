@@ -1,0 +1,36 @@
+# 1. Umlauts
+glucklich ||| glücklich
+muede ||| müde
+schon ||| schön
+
+# 2. Capitalization of nouns
+hunger ||| Hunger
+morgen ||| Morgen
+arbeit ||| Arbeit
+
+# 3. Sentence-initial capitalization
+ich bin müde ||| Ich bin müde
+guten morgen ||| Guten Morgen
+
+# 4. Greeting normalization
+guten abend ||| Guten Abend
+gute nacht ||| Gute Nacht
+
+# 5. Common verb patterns
+ich bin glucklich ||| Ich bin glücklich
+ich habe hunger ||| Ich habe Hunger
+
+# 6. Umlaut + Capitalization combined
+ich habe hunger und bin muede ||| Ich habe Hunger und bin müde
+
+# 7. Punctuation normalization
+ich bin müde ||| Ich bin müde.
+
+# 8. Extra spaces
+ich  bin   muede ||| Ich bin müde
+
+# 9. Informal → Neutral
+bin muede ||| Ich bin müde
+
+# 10. Mixed errors
+guten morgen ich habe hunger ||| Guten Morgen, ich habe Hunger.
