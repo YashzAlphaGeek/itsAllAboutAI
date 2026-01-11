@@ -18,10 +18,10 @@ def load_dataset(file_path):
         for line in f:
             line = line.strip()
             if not line or line.startswith("#"):
-                continue  # Skip empty lines and comments
+                continue
 
             if "|||" not in line:
-                continue  # Skip malformed lines
+                continue
 
             bad, correct = line.split("|||")
             bad_sentences.append(bad.strip())

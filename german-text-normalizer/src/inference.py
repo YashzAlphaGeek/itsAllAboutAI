@@ -1,14 +1,16 @@
 import numpy as np
 import tensorflow as tf
 import pickle
+import os
 
-MODEL_PATH = "../models/seq2seq_model.keras"
-SRC_TOKENIZER_PATH = "../models/src_tokenizer.pkl"
-TGT_TOKENIZER_PATH = "../models/tgt_tokenizer.pkl"
-LATENT_DIM = 32  # must match training
+MODEL_DIR = "../models"
+MODEL_PATH = os.path.join(MODEL_DIR, "seq2seq_model.keras")
+SRC_TOKENIZER_PATH = os.path.join(MODEL_DIR, "src_tokenizer.pkl")
+TGT_TOKENIZER_PATH = os.path.join(MODEL_DIR, "tgt_tokenizer.pkl")
+LATENT_DIM = 128
 
 # -----------------------------
-# 1. Load trained model
+# 1. Load trained Seq2Seq model
 # -----------------------------
 seq2seq_model = tf.keras.models.load_model(MODEL_PATH)
 print("Seq2Seq model loaded.")
@@ -22,6 +24,7 @@ with open(SRC_TOKENIZER_PATH, "rb") as f:
 with open(TGT_TOKENIZER_PATH, "rb") as f:
     tgt_tokenizer = pickle.load(f)
 
+# Reverse mapping for target tokens
 index_to_word = {v: k for k, v in tgt_tokenizer.word_index.items()}
 
 # -----------------------------
@@ -30,7 +33,7 @@ index_to_word = {v: k for k, v in tgt_tokenizer.word_index.items()}
 # Encoder
 encoder_inputs = seq2seq_model.input[0]
 encoder_embedding = seq2seq_model.get_layer("encoder_embedding")(encoder_inputs)
-_, state_h, state_c = seq2seq_model.get_layer("encoder_lstm")(encoder_embedding)
+encoder_outputs, state_h, state_c = seq2seq_model.get_layer("encoder_lstm")(encoder_embedding)
 encoder_model = tf.keras.Model(encoder_inputs, [state_h, state_c])
 
 # Decoder
@@ -53,6 +56,9 @@ decoder_model = tf.keras.Model(
 # 4. Inference function
 # -----------------------------
 def normalize_sentence(sentence, max_len=20):
+    """
+    Takes a "bad" German sentence and returns the corrected version.
+    """
     prepped = f"<sos> {sentence} <eos>"
     seq = src_tokenizer.texts_to_sequences([prepped])
     seq_padded = tf.keras.preprocessing.sequence.pad_sequences(seq, maxlen=max_len, padding="post")
@@ -60,7 +66,6 @@ def normalize_sentence(sentence, max_len=20):
     # Encode input
     state_h, state_c = encoder_model.predict(seq_padded)
 
-    # Start decoder with <sos>
     decoder_input = np.array([[tgt_tokenizer.word_index["<sos>"]]])
     result = []
 
@@ -88,11 +93,14 @@ if __name__ == "__main__":
         "hunger",
         "guten morgen ich habe hunger",
         "glucklich",
-        "ich  bin   muede"
+        "ich  bin   muede",
+        "hallo zusammen",
+        "bin muede",
+        "ich gehe in die schule"
     ]
 
     for sent in test_sentences:
         normalized = normalize_sentence(sent)
         print(f"Input : {sent}")
         print(f"Output: {normalized}")
-        print("-" * 30)
+        print("-" * 50)

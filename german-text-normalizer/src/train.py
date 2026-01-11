@@ -10,10 +10,10 @@ import tensorflow as tf
 # -----------------------------
 DATA_FILE = "../data/raw/german_normalization_v2.txt"
 MODEL_DIR = "../models"
-LATENT_DIM = 128   # richer LSTM representation
-BATCH_SIZE = 1     # small batch for tiny dataset
-EPOCHS = 1200      # more epochs to memorize patterns
-REPEAT_DATASET = 10  # repeat small dataset to enlarge training size
+LATENT_DIM = 128
+BATCH_SIZE = 1
+EPOCHS = 1200
+REPEAT_DATASET = 10
 
 os.makedirs(MODEL_DIR, exist_ok=True)
 
