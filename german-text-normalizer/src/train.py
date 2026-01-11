@@ -8,13 +8,12 @@ import tensorflow as tf
 # -----------------------------
 # Configuration
 # -----------------------------
-DATA_FILE = "../data/raw/german_normalization_v1.txt"
+DATA_FILE = "../data/raw/german_normalization_v2.txt"
 MODEL_DIR = "../models"
-LATENT_DIM = 32
-EMBED_DIM = 32
-BATCH_SIZE = 1
-EPOCHS = 500
-REPEAT_FACTOR = 10
+LATENT_DIM = 128   # richer LSTM representation
+BATCH_SIZE = 1     # small batch for tiny dataset
+EPOCHS = 1200      # more epochs to memorize patterns
+REPEAT_DATASET = 10  # repeat small dataset to enlarge training size
 
 os.makedirs(MODEL_DIR, exist_ok=True)
 
@@ -24,9 +23,9 @@ os.makedirs(MODEL_DIR, exist_ok=True)
 bad_sentences, correct_sentences = load_dataset(DATA_FILE)
 print(f"Loaded {len(bad_sentences)} sentence pairs.")
 
-# Repeat dataset to give the model enough examples
-bad_sentences = bad_sentences * REPEAT_FACTOR
-correct_sentences = correct_sentences * REPEAT_FACTOR
+# Repeat dataset to enlarge training data
+bad_sentences = bad_sentences * REPEAT_DATASET
+correct_sentences = correct_sentences * REPEAT_DATASET
 print(f"Dataset repeated: {len(bad_sentences)} sentence pairs")
 
 # -----------------------------
@@ -47,8 +46,8 @@ tgt_pre.save_tokenizer(os.path.join(MODEL_DIR, "tgt_tokenizer.pkl"))
 # -----------------------------
 # 3. Prepare decoder input & target
 # -----------------------------
-decoder_input = tgt_seq_padded[:, :-1]  # all tokens except last
-decoder_target = tgt_seq_padded[:, 1:]  # all tokens except first
+decoder_input = tgt_seq_padded[:, :-1]
+decoder_target = tgt_seq_padded[:, 1:]
 
 # -----------------------------
 # 4. Build model
@@ -56,10 +55,7 @@ decoder_target = tgt_seq_padded[:, 1:]  # all tokens except first
 src_vocab_size = len(src_pre.tokenizer.word_index) + 1
 tgt_vocab_size = len(tgt_pre.tokenizer.word_index) + 1
 
-model, _, _ = build_seq2seq_model(
-    src_vocab_size, tgt_vocab_size, LATENT_DIM
-)
-
+model, _, _ = build_seq2seq_model(src_vocab_size, tgt_vocab_size, LATENT_DIM)
 model.summary()
 
 # -----------------------------
@@ -70,8 +66,7 @@ history = model.fit(
     np.expand_dims(decoder_target, -1),
     batch_size=BATCH_SIZE,
     epochs=EPOCHS,
-    verbose=1,
-    shuffle=True
+    verbose=1
 )
 
 # -----------------------------
