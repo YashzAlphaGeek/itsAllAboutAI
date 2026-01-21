@@ -6,7 +6,7 @@ A **2D Paper Flight Reinforcement Learning game** using **PPO (Proximal Policy O
 
 ---
 
-##  Project Structure
+## Project Structure
 
 ```
 paperflight/
@@ -28,12 +28,14 @@ paperflight/
 ├── train/               # Training scripts
 │   └── train_ppo.py
 │
+├── PHYSICS.md           # Detailed physics explanation
+│
 └── README.md
 ```
 
 ---
 
-##  Installation
+## Installation
 
 1. **Clone the repo**
 
@@ -68,7 +70,7 @@ flask-cors
 
 ---
 
-##  Usage
+## Usage
 
 1. **Run the Flask server**
 
@@ -86,7 +88,7 @@ The game should appear, and the AI will automatically throw the ball.
 
 ---
 
-##  Training the AI
+## Training the AI
 
 The AI uses **PPO** to learn the optimal angle and power.
 
@@ -94,7 +96,7 @@ The AI uses **PPO** to learn the optimal angle and power.
 2. Run training:
 
 ```bash
-python train/train_ppo.py
+python -m train.train_ppo
 ```
 
 3. Trained weights are saved in `server/trained_actor.weights.h5` and `server/trained_critic.weights.h5`.
@@ -124,25 +126,14 @@ python train/train_ppo.py
 
 * **Physics**
 
-  * Gravity: `0.25`
-  * Frame timestep: `0.25`
-  * Velocity scaling matches frontend for realistic throws
+  The ball moves under simple 2D physics (gravity, angle, power, and velocity). For a detailed, see [PHYSICS.md](PHYSICS.md).
 
 ---
 
-##  Frontend
+## Frontend
 
 * **Canvas:** `800x500` pixels
 * **HUD:** Score, Angle, Power, Speed control
 * **Trajectories:** Previous throws are shown with fading lines
 
 ---
-
-##  Notes
-
-* The speed slider adjusts the animation speed.
-* You can retrain the AI for better throws.
-* Adjust `power` limits in `policy.py` if throws are too strong.
-
----
-

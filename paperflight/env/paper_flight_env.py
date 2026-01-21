@@ -28,16 +28,24 @@ class PaperFlightEnv:
         self.vx = np.cos(angle) * power
         self.vy = -np.sin(angle) * power
 
-        self.ball_x += self.vx * self.dt
-        self.ball_y += self.vy * self.dt
-        self.vy += 0.25  # gravity
+        while True:
+            self.ball_x += self.vx * self.dt
+            self.ball_y += self.vy * self.dt
+            self.vy += 0.25  # gravity
 
-        done = self.ball_y >= self.ground_y
-        reward = 0.0
-        if done:
-            dist = abs(self.ball_x - self.bin_x)
-            if dist < 22:
-                reward = 1.0
-            else:
-                reward = 0.5 * (1 - min(dist / 800, 1.0))
+            if self.ball_y >= self.ground_y:
+                break
+
+        dist = abs(self.ball_x - self.bin_x)
+
+        # reward
+        if dist < 22:
+            reward = 1.0
+        elif dist < 50:
+            reward = 0.6
+        else:
+            reward = max(0.0, 1 - dist / 300)
+
+        done = True
         return self._get_state(), reward, done
+

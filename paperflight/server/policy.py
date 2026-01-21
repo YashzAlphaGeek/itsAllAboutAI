@@ -13,12 +13,25 @@ def build_actor():
 
 actor = build_actor()
 actor.load_weights("server/trained_actor.weights.h5")
+print("Loaded weights from server/trained_actor.weights.h5")
 
 def get_action(obs):
     obs = np.array(obs, dtype=np.float32).reshape(1, -1)
     mu = actor(obs).numpy()[0]
 
-    # Tighter ranges for better control
-    angle = float(np.clip(mu[0], 0.3, 1.0))
-    power = float(np.clip(8 + (mu[1] + 1)/2 * 4, 8, 12))
+
+    bin_dist = obs[0][0]
+    min_angle = 0.35
+    max_angle = 1.0
+    angle = min_angle + (max_angle - min_angle) * bin_dist
+    angle += mu[0] * 0.2
+    angle = np.clip(angle, min_angle, max_angle)
+
+    min_power = 9
+    max_power = 14
+    power = min_power + (max_power - min_power) * bin_dist
+    power += mu[1] * 1.0
+    power = np.clip(power, min_power, max_power)
+
+    print(f"Received obs: {obs[0]} | Returning action: {angle:.2f} {power:.2f}")
     return angle, power

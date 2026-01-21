@@ -1,36 +1,37 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-// HUD references
+
 const scoreEl = document.getElementById("scoreValue");
+const hitsEl = document.getElementById("hitsValue");
+const nearHitsEl = document.getElementById("nearHitsValue");
+const minDistEl = document.getElementById("minDistValue");
 const angleEl = document.getElementById("angleValue");
 const powerEl = document.getElementById("powerValue");
 const speedControl = document.getElementById("speedControl");
 const speedLabel = document.getElementById("speedLabel");
 
-// World state
-let ball = { x: 100, y: 420, vx: 0, vy: 0 };
-let bin  = { x: 600, y: 420 };
-let score = 0;
+let ball = { x: 100, y: 430, vx: 0, vy: 0 };
+let bin  = { x: 600, y: 430 };
 
-// Physics tuning
+let score = 0;
+let hits = 0;
+let nearHits = 0;
+let throwsThisEpisode = 0;
+const THROWS_PER_EPISODE = 25;
+let minDist = Infinity;
+
 const radius = 10;
 const groundY = 430;
+const dt = 0.25;
+const gravity = 0.25;
+const airDrag = 0.995;
 
-// Adjusted timestep & velocityScale to match PPO
-const dt = 0.2;
-const velocityScale = 12;
-const gravity = 0.18;
-
-// Speed multiplier
 let speedMultiplier = 1.0;
 
-// Trajectories fading
 let trajectories = [];
 
-// --------------------
-// Draw functions
-// --------------------
+
 function drawBackground() {
     ctx.fillStyle = "#eaf2f8";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -75,15 +76,13 @@ function draw() {
     drawBall();
 }
 
-// --------------------
-// Throw logic
-// --------------------
+
 async function throwBall() {
     const obs = [
-        (bin.x - ball.x)/canvas.width,
-        (bin.y - ball.y)/canvas.height,
-        ball.vx / velocityScale,
-        ball.vy / velocityScale
+        (bin.x - ball.x) / 800,
+        (groundY - ball.y) / 600,
+        ball.vx / 12,
+        ball.vy / 12
     ];
 
     let data;
@@ -93,61 +92,89 @@ async function throwBall() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ obs })
         });
+        if (!res.ok) throw new Error(`Server returned ${res.status}`);
         data = await res.json();
-    } catch {
-        console.error("Server not reachable");
-        return;
+    } catch (err) {
+        console.warn("Server not reachable. Using fallback action.", err);
+        data = { angle: 0.6, power: 12 };
     }
 
-    const angle = data.angle;
-    const power = data.power;
 
-    // HUD update
+    const binDist = obs[0];
+    const minAngle = 0.4, maxAngle = 1.0;
+    let angle = minAngle + (maxAngle - minAngle) * binDist + data.angle * 0.2;
+    angle = Math.min(Math.max(angle, minAngle), maxAngle);
+
+    const minPower = 10, maxPower = 16;
+    let power = minPower + (maxPower - minPower) * binDist + data.power * 1.0;
+    power = Math.min(Math.max(power, minPower), maxPower);
+
+    ball.vx = Math.cos(angle) * power;
+    ball.vy = -Math.sin(angle) * power;
+
     angleEl.textContent = angle.toFixed(2);
     powerEl.textContent = power.toFixed(2);
 
-    // Start trajectory
-    let currentTrajectory = { points: [{ x: ball.x, y: ball.y }], alpha: 1.0 };
-    trajectories.push(currentTrajectory);
+    trajectories.push({ points: [{ x: ball.x, y: ball.y }], alpha: 1.0 });
 
-    // Apply scaled velocities
-    ball.vx = Math.cos(angle) * power * velocityScale;
-    ball.vy = -Math.sin(angle) * power * velocityScale;
-
-    const interval = setInterval(() => {
-        ball.vy += gravity * speedMultiplier;
-        ball.x += ball.vx * dt * speedMultiplier;
-        ball.y += ball.vy * dt * speedMultiplier;
-
-        currentTrajectory.points.push({ x: ball.x, y: ball.y });
-        draw();
-
-        if (ball.y >= groundY) {
-            clearInterval(interval);
-            ball.y = groundY;
-
-            if (Math.abs(ball.x - bin.x) < 22) {
-                score += 1;
-                scoreEl.textContent = score;
-                bin.x = 200 + Math.random() * 400;
-            }
-
-            ball = { x: 100, y: groundY, vx: 0, vy: 0 };
-            setTimeout(throwBall, 600 / speedMultiplier);
-        }
-    }, 16 / speedMultiplier);
+    requestAnimationFrame(updateBall);
 }
 
-// --------------------
-// Speed slider
-// --------------------
+function updateBall() {
+    ball.vx *= airDrag;
+    ball.vy += gravity * speedMultiplier;
+
+    ball.x += ball.vx * dt * speedMultiplier;
+    ball.y += ball.vy * dt * speedMultiplier;
+
+    if (ball.y > groundY) ball.y = groundY;
+
+    if (trajectories.length > 0 && trajectories[trajectories.length - 1].points) {
+        trajectories[trajectories.length - 1].points.push({ x: ball.x, y: ball.y });
+    }
+
+    draw();
+
+    if (ball.y >= groundY && ball.vy >= 0) {
+        const dist = Math.abs(ball.x - bin.x);
+        minDist = Math.min(minDist, dist);
+        minDistEl.textContent = minDist.toFixed(2);
+
+        if (dist < 22) hits += 1;
+        else if (dist < 50) nearHits += 1;
+
+        score += dist < 50 ? 1 : 0;
+        scoreEl.textContent = score;
+        hitsEl.textContent = hits;
+        nearHitsEl.textContent = nearHits;
+
+        throwsThisEpisode += 1;
+
+        ball = { x: 100, y: groundY, vx: 0, vy: 0 };
+        bin.x = 200 + Math.random() * 400;
+        trajectories.push({ points: [{ x: ball.x, y: ball.y }], alpha: 1.0 });
+
+        if (throwsThisEpisode >= THROWS_PER_EPISODE) {
+            hits = 0; nearHits = 0; throwsThisEpisode = 0; minDist = Infinity;
+            hitsEl.textContent = hits;
+            nearHitsEl.textContent = nearHits;
+            minDistEl.textContent = minDist.toFixed(2);
+        }
+
+        setTimeout(throwBall, 600 / speedMultiplier);
+        return;
+    }
+
+    requestAnimationFrame(updateBall);
+}
+
+
+
 speedControl.addEventListener("input", e => {
     speedMultiplier = parseFloat(e.target.value);
     speedLabel.textContent = `${speedMultiplier.toFixed(2)}x`;
 });
 
-// --------------------
-// Initialize
-// --------------------
+
 draw();
 throwBall();
